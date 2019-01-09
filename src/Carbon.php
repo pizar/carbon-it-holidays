@@ -11,6 +11,7 @@ class Carbon extends \Carbon\Carbon {
         }
 
         // Easter Monday
+        $easter = Carbon::create($year, 3, 21)->addDays(easter_days($year));
         $easterMonday = Carbon::create($year, 3, 21)->addDays(easter_days($year) +1);
 
         $holidays = array(
@@ -27,58 +28,64 @@ class Carbon extends \Carbon\Carbon {
                 'id' => 2
             ),
             array(
+                'name' => "Easter",
+                'date' => $easter,
+                'bank_holiday' => true,
+                'id' => 3
+            ),
+            array(
                 'name' => "Easter Monday",
                 'date' => $easterMonday,
                 'bank_holiday' => true,
-                'id' => 3
+                'id' => 4
             ),
             array(
                 'name' => "Liberation Day",
                 'date' => Carbon::create($year, 4, 25),
                 'bank_holiday' => true,
-                'id' => 4
+                'id' => 5
             ),
         	array(
                 'name' => "Labour Day",
                 'date' => Carbon::create($year, 5, 1),
                 'bank_holiday' => true,
-                'id' => 5
+                'id' => 6
             ),
             array(
                 'name' => "Republic day",
                 'date' => Carbon::create($year, 6, 2),
                 'bank_holiday' => true,
-                'id' => 6
+                'id' => 7
             ),
             array(
                 'name' => "Assumption of Mary",
                 'date' => Carbon::create($year, 8, 15),
                 'bank_holiday' => true,
-                'id' => 7
+                'id' => 8
             ),
             array(
                 'name' => "All Saints' Day",
                 'date' => Carbon::create($year, 4, 1),
                 'bank_holiday' => true,
-                'id' => 8
+                'id' => 9
             ),
             array(
                 'name' => "Immaculate Conception Day",
                 'date' => Carbon::create($year, 12, 8),
                 'bank_holiday' => true,
-                'id' => 9
+                'id' => 10
             ),
         	array(
                 'name' => "Christmas Day",
                 'date' => Carbon::create($year, 12, 25),
                 'bank_holiday' => true,
-                'id' => 10
+                'id' => 11
             ),
             array(
                 'name' => "St. Stephen's Day",
                 'date' => Carbon::create($year, 12, 26),
                 'bank_holiday' => true,
-                'id' => 11
+                'id' => 12
             ),
         );
 
@@ -217,6 +224,21 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
+     * getEaster
+     */
+    public function getEasterHoliday($year = null)
+    {
+        $year = $year ? $year : $this->year;
+        $holidays = $this->getHolidays($year);
+
+        $index = array_search(3, array_column($holidays, 'id') );
+        $date = $holidays[$index]['date'];
+
+        $this->modify($date);
+        return $date;
+    }
+
+    /**
      * getEasterMonday
      */
     public function getEasterMondayHoliday($year = null)
@@ -224,7 +246,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(3, array_column($holidays, 'id') );
+        $index = array_search(4, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -239,7 +261,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(4, array_column($holidays, 'id') );
+        $index = array_search(5, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -254,7 +276,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(5, array_column($holidays, 'id') );
+        $index = array_search(6, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -269,7 +291,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(6, array_column($holidays, 'id') );
+        $index = array_search(7, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -284,7 +306,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(7, array_column($holidays, 'id') );
+        $index = array_search(8, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -307,7 +329,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(8, array_column($holidays, 'id') );
+        $index = array_search(9, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -322,7 +344,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(9, array_column($holidays, 'id') );
+        $index = array_search(10, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -337,7 +359,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(10, array_column($holidays, 'id') );
+        $index = array_search(11, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -352,7 +374,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(11, array_column($holidays, 'id') );
+        $index = array_search(12, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
