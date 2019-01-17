@@ -65,7 +65,7 @@ class Carbon extends \Carbon\Carbon {
             ),
             array(
                 'name' => "All Saints' Day",
-                'date' => Carbon::create($year, 4, 1),
+                'date' => Carbon::create($year, 11, 1),
                 'bank_holiday' => true,
                 'id' => 9
             ),

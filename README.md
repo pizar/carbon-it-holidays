@@ -6,6 +6,7 @@ I start from this repo: https://github.com/geoffreyrose/us-holidays and i custom
 ### Supported Holidays
  * New Years Day
  * Epiphany
+ * Easter
  * Easter Monday
  * Liberation Day
  * Labour Day
