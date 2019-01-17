@@ -4,6 +4,12 @@ namespace ITHolidays;
 
 class Carbon extends \Carbon\Carbon {
 
+    /**
+     * Return all the date for the italian holidays
+     *
+     * @param null $year
+     * @return array
+     */
     private function getHolidays( $year = null ) {
         
         if( $year === null) {
@@ -92,6 +98,12 @@ class Carbon extends \Carbon\Carbon {
         return $holidays;
     }
 
+    /**
+     * Check if its an italian holiday. Comparing the date/month values of the two dates.
+     *
+     * @param null $year
+     * @return bool
+     */
     public function isHoliday($year = null)
 	{
         $year = $year ? $year : $this->year;
@@ -107,6 +119,11 @@ class Carbon extends \Carbon\Carbon {
         return $isHoliday;
     }
 
+    /**
+     * Check if its an working day.
+     *
+     * @return bool
+     */
     public function isWorkingDay(){
         if ($this->isHoliday()){
             return false;
@@ -119,10 +136,20 @@ class Carbon extends \Carbon\Carbon {
         return true;
     }
 
+    /**
+     * Check if its not an working day.
+     *
+     * @return bool
+     */
     public function isNotWorkingDay(){
         return !($this->isWorkingDay());
     }
 
+    /**
+     * Check if its an bank holiday.
+     *
+     * @return bool
+     */
     public function isBankHoliday($year = null)
 	{
         $year = $year ? $year : $this->year;
@@ -159,11 +186,18 @@ class Carbon extends \Carbon\Carbon {
         return $isBankHoliday;
     }
 
+    /**
+     * Check if its an italian holiday.
+     * If it is return the name.
+     *
+     * @return bool
+     */
     public function getHolidayName($year = null)
     {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
         $holidayName = false;
+
 
         foreach ($holidays as $holiday) {
             if( $this->isBirthday($holiday['date']) ) {
@@ -194,7 +228,10 @@ class Carbon extends \Carbon\Carbon {
 
 
     /**
-     * getNewYearsDayHoliday
+     * Return the date for the "New Year's Day" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getNewYearsDayHoliday($year = null)
     {
@@ -209,7 +246,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * getEpiphany
+     * Return the date for the "Epiphany" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getEpiphanyHoliday($year = null)
     {
@@ -224,7 +264,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * getEaster
+     * Return the date for the "Easter" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getEasterHoliday($year = null)
     {
@@ -239,7 +282,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * getEasterMonday
+     * Return the date for the "Easter Monday" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getEasterMondayHoliday($year = null)
     {
@@ -254,7 +300,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * Liberation Day
+     * Return the date for the "Liberation day" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getLiberationDayHoliday($year = null)
     {
@@ -269,7 +318,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * Labour Day
+     * Return the date for the "Labour day" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getLabourDayHoliday($year = null)
     {
@@ -284,7 +336,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * Republic Day
+     * Return the date for the "Republic day" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getRepublicDayHoliday($year = null)
     {
@@ -299,7 +354,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * Assumption of Mary
+     * Return the date for the "Assumption of Mary" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getAssumptionOfMaryHoliday($year = null)
     {
@@ -314,7 +372,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * Assumption of Mary
+     * Return the date for the "Ferragosto" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getFerragostoHoliday($year = null)
     {
@@ -322,7 +383,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * All Saints' Day
+     * Return the date for the "All Saints' Day" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getAllSaintsDayHoliday($year = null)
     {
@@ -337,7 +401,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * Immaculate Conception Day
+     * Return the date for the "Immaculate Conception Day" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getImmaculateConceptionDayHoliday($year = null)
     {
@@ -352,9 +419,12 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * Christmas Day
+     * Return the date for the "ChristmasDay" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
-    public function getChristmasDayHoliday($year = null)
+    public function getHoliday($year = null)
     {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
@@ -367,7 +437,10 @@ class Carbon extends \Carbon\Carbon {
     }
 
     /**
-     * St. Stephen's Day
+     * Return the date for the "St. Stephen's Day" Holiday
+     *
+     * @param null $year
+     * @return mixed
      */
     public function getStStephenDayHoliday($year = null)
     {
