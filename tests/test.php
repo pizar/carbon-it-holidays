@@ -6,12 +6,12 @@ use ITHolidays\Carbon;
 
 
 $carbon = Carbon::create(2019, 1, 1);
-for($i=0; $i<365; $i++){
+$carbon->addHoliday("Sant'Apollinare", $year, 7, 23, ST_APOLLINARE, false);
+
+
+for($counter=0; $counter<365; $counter++){
     echo $carbon->toDateString();
-    echo " :: isWorkingDay :: ". $carbon->isWorkingDay();
-    if ($carbon->isHoliday()){
-        echo " -> " . $carbon->getHolidayName();
-    }
+    echo " -> " . $carbon->getDateName();
     echo "\n";
 
     $carbon->addDay(1);

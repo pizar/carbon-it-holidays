@@ -4,6 +4,8 @@ namespace ITHolidays;
 
 class Carbon extends \Carbon\Carbon {
 
+    private $locale_holidays = array();
+
     /**
      * Return all the date for the italian holidays
      *
@@ -22,79 +24,80 @@ class Carbon extends \Carbon\Carbon {
 
         $holidays = array(
         	array(
-                'name' => "New Year's Day",
+                'name' => "Nuovo anno",
                 'date' => Carbon::create($year, 1, 1),
                 'bank_holiday' => true,
-                'id' => 1
+                'id' => ItalianHoliday::NEW_YEAR
             ),
         	array(
-                'name' => "Epiphany",
+                'name' => "Epifania",
                 'date' => Carbon::create($year, 1, 6),
                 'bank_holiday' => true,
-                'id' => 2
+                'id' => ItalianHoliday::EPIPHANY
             ),
             array(
-                'name' => "Easter",
+                'name' => "Pasqua",
                 'date' => $easter,
                 'bank_holiday' => true,
-                'id' => 3
+                'id' => ItalianHoliday::EASTER
             ),
             array(
-                'name' => "Easter Monday",
+                'name' => "Lunedi di Pasqua",
                 'date' => $easterMonday,
                 'bank_holiday' => true,
-                'id' => 4
+                'id' => ItalianHoliday::EASTER_MONDAY
             ),
             array(
-                'name' => "Liberation Day",
+                'name' => "Giorno della liberazione",
                 'date' => Carbon::create($year, 4, 25),
                 'bank_holiday' => true,
-                'id' => 5
+                'id' => ItalianHoliday::LIBERATION_DAY
             ),
         	array(
-                'name' => "Labour Day",
+                'name' => "Giornata dei lavoratori",
                 'date' => Carbon::create($year, 5, 1),
                 'bank_holiday' => true,
-                'id' => 6
+                'id' => ItalianHoliday::LABOUR_DAY
             ),
             array(
-                'name' => "Republic day",
+                'name' => "Giorno della repubblica",
                 'date' => Carbon::create($year, 6, 2),
                 'bank_holiday' => true,
-                'id' => 7
+                'id' => ItalianHoliday::REPUBLIC_DAY
             ),
             array(
-                'name' => "Assumption of Mary",
+                'name' => "Ferragosto",
                 'date' => Carbon::create($year, 8, 15),
                 'bank_holiday' => true,
-                'id' => 8
+                'id' => ItalianHoliday::FERRAGOSTO
             ),
             array(
-                'name' => "All Saints' Day",
+                'name' => "Ogni santi",
                 'date' => Carbon::create($year, 11, 1),
                 'bank_holiday' => true,
-                'id' => 9
+                'id' => ItalianHoliday::ALL_SAINTS
             ),
             array(
-                'name' => "Immaculate Conception Day",
+                'name' => "Immacolata concezione",
                 'date' => Carbon::create($year, 12, 8),
                 'bank_holiday' => true,
-                'id' => 10
+                'id' => ItalianHoliday::IMMACULATE
             ),
         	array(
-                'name' => "Christmas Day",
+                'name' => "Natale",
                 'date' => Carbon::create($year, 12, 25),
                 'bank_holiday' => true,
-                'id' => 11
+                'id' => ItalianHoliday::XMAS_DAY
             ),
             array(
-                'name' => "St. Stephen's Day",
+                'name' => "Santo Stefano",
                 'date' => Carbon::create($year, 12, 26),
                 'bank_holiday' => true,
-                'id' => 12
+                'id' => ItalianHoliday::ST_STEPHEN
             ),
         );
 
+        $holidays = array_merge($holidays, $this->locale_holidays);
         return $holidays;
     }
 
@@ -196,34 +199,34 @@ class Carbon extends \Carbon\Carbon {
     {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
-        $holidayName = false;
-
+        $holidayName = null;
 
         foreach ($holidays as $holiday) {
             if( $this->isBirthday($holiday['date']) ) {
                 $holidayName = $holiday['name'];
-            } else {
-                if( $this->dayOfWeek === Carbon::MONDAY ) {
-                    $this->subDay();
-
-                    if( $this->isBirthday($holiday['date']) && $holiday['bank_holiday'] ) {
-                        $holidayName = $holiday['name'] . ' (Observed)';
-                    } else {
-                        $this->addDay();
-                    }
-                } else if( $this->dayOfWeek === Carbon::FRIDAY ) {
-                    $this->addDay();
-
-                    if( $this->isBirthday($holiday['date']) && $holiday['bank_holiday'] ) {
-                        $holidayName = $holiday['name'] . ' (Observed)';
-                    } else {
-                        $this->subDay();
-                    }
-                }
             }
         }
 
         return $holidayName;
+    }
+
+    /**
+     * Return the holidayname or dayname
+     * if the day is not an holiday
+     *
+     * @param null $year
+     * @return bool|string|null
+     */
+    public function getDateName($year = null){
+        $dayName = null;
+
+        if ($this->isHoliday()) {
+            $dayName = $this->getHolidayName();
+        }else{
+            $dayName = $this->format("l");
+        }
+
+        return $dayName;
     }
 
 
@@ -238,7 +241,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(1, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::NEW_YEAR, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -256,7 +259,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(2, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::EPIPHANY, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -274,7 +277,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(3, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::EASTER, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -292,7 +295,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(4, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::EASTER_MONDAY, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -310,7 +313,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(5, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::LIBERATION_DAY, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -328,7 +331,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(6, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::LABOUR_DAY, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -346,7 +349,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(7, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::REPUBLIC_DAY, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -364,7 +367,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(8, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::FERRAGOSTO, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -393,7 +396,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(9, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::ALL_SAINTS, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -411,7 +414,7 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(10, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::IMMACULATE, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -424,12 +427,12 @@ class Carbon extends \Carbon\Carbon {
      * @param null $year
      * @return mixed
      */
-    public function getHoliday($year = null)
+    public function getChristmasDayHoliday($year = null)
     {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(11, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::XMAS_DAY, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
@@ -447,10 +450,44 @@ class Carbon extends \Carbon\Carbon {
         $year = $year ? $year : $this->year;
         $holidays = $this->getHolidays($year);
 
-        $index = array_search(12, array_column($holidays, 'id') );
+        $index = array_search(ItalianHoliday::ST_STEPHEN, array_column($holidays, 'id') );
         $date = $holidays[$index]['date'];
 
         $this->modify($date);
         return $date;
+    }
+
+    /**
+     * @param $key
+     * @param null $year
+     * @return mixed
+     */
+    public function getHolidayById($year = null, $id){
+
+        $year = $year ? $year : $this->year;
+        $holidays = $this->getHolidays($year);
+
+        $index = array_search($id, array_column($holidays, 'id') );
+        $date = $holidays[$index]['date'];
+
+        $this->modify($date);
+        return $date;
+    }
+
+    /**
+     * @param $name
+     * @param null $year
+     * @param $month
+     * @param $day
+     * @param $bank_holiday
+     */
+    public function addHoliday($name, $year = null, $month, $day, $id, $bank_holiday){
+        $tmp = array(
+            'name' => $name,
+            'date' => Carbon::create($year, $month, $day),
+            'bank_holiday' => $bank_holiday,
+            'id' => $id
+        );
+        array_push($this->locale_holidays, $tmp);
     }
 }
