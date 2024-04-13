@@ -19,7 +19,7 @@ I start from this repo: https://github.com/geoffreyrose/us-holidays and i custom
 
 ### Requirements
  * [Carbon](http://carbon.nesbot.com/)
- * PHP 5.5+
+ * PHP 8.1+
 
 ### Usage
 
