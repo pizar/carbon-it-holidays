@@ -10,12 +10,17 @@
     ],
     "minimum-stability": "dev",
     "license": "MIT",
-    "require": {
-        "nesbot/carbon": "^1.22"
-    },
     "autoload": {
         "psr-4": {
             "ITHolidays\\": "src/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
+    },
+    "require": {
+        "nesbot/carbon": "^3.0@dev"
     }
 }
